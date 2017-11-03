@@ -13,7 +13,7 @@ import android.view.ViewGroup;
  * Created by thl on 2017/10/27.
  */
 
-public abstract class CommonDialog extends DialogFragment implements View.OnClickListener {
+public abstract class CommonDialog extends CustomDialog implements View.OnClickListener {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -24,7 +24,7 @@ public abstract class CommonDialog extends DialogFragment implements View.OnClic
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(getLayoutResId(), container, false);
+        View root = getView();
         initView(root);
         bindData();
         return root;
@@ -35,14 +35,13 @@ public abstract class CommonDialog extends DialogFragment implements View.OnClic
         onClickImpl(v);
     }
 
-    @Override
-    public void show(FragmentManager manager, String tag) {
-        if (manager.findFragmentByTag(tag) == null) {
-            FragmentTransaction ft = manager.beginTransaction();
-            ft.add(this, tag);
-            ft.commitAllowingStateLoss();
-        }
+    public View getViewByLayoutId(int layoutId){
+        View view = LayoutInflater.from(getActivity()).inflate(layoutId, null, false);
+        return view;
     }
+
+
+
 
     public void show(FragmentManager manager) {
         show(manager,"CommonDialog");
@@ -50,7 +49,7 @@ public abstract class CommonDialog extends DialogFragment implements View.OnClic
 
     public void onClickImpl(View v){}
 
-    public  abstract int getLayoutResId();
+    public  abstract View getView();
     public  abstract void initView(View view);
     public  abstract void bindData();
 

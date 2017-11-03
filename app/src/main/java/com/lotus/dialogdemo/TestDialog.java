@@ -17,8 +17,8 @@ public class TestDialog extends CommonDialog {
     }
 
     @Override
-    public int getLayoutResId() {
-        return R.layout.test_dailog;
+    public View getView() {
+        return getViewByLayoutId(R.layout.test_dailog);
     }
 
     @Override
